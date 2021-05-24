@@ -11,6 +11,9 @@ with open("settings.json", "r") as config:
 
 @bot.command(name="getCaptcha")
 async def output(ctx):
+    if len(ctx.author.roles):
+        await ctx.send("mal parido , ya tienes un role")
+        return
     await get_captcha(ctx)
 
 
@@ -23,7 +26,7 @@ async def output(ctx, arg=None):
         await ctx.send("mal parido te falto un argumento")
         return
 
-    await receive_captcha(ctx, arg, bot)
+    await receive_captcha(ctx, arg)
 
 
 @bot.event

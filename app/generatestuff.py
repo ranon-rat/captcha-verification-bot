@@ -1,7 +1,7 @@
 
 from typing import Tuple
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
-from random import Random, randint, choice
+from PIL import Image, ImageDraw, ImageFont
+from random import randint, choice
 from math import sin, cos, pi
 from io import BytesIO
 
@@ -22,7 +22,7 @@ class Generate:
         return "".join([random_char() for i in range(10)])
     # this is only for manipulate the image
 
-    def degenerate(self)->None:
+    def degenerate(self) -> None:
         xsize, ysize = self.img.size
 
         for x in range(1, xsize):
@@ -40,11 +40,8 @@ class Generate:
         text = self.random_string()
         captcha: ImageDraw = ImageDraw.Draw(self.img)
         captcha.text((10, 30), text, fill=(40, 40, 40), font=self.fnt)
-
         self.degenerate()
-       
         self.img.save(self.buff, format="PNG")
-
         return (text, self.buff)
 
 
