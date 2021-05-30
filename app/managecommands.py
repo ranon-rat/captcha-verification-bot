@@ -1,4 +1,5 @@
 from discord import File
+from discord.ext.commands.context import Context
 from discord.utils import get
 from threading import Thread
 from queue import Queue
@@ -6,7 +7,7 @@ from .generatestuff import Generate
 from .database import delete_data, insert_data, selecting_data
 
 
-async def get_captcha(ctx):
+async def get_captcha(ctx: Context):
     captcha_output, image = Generate().generate_image()
     image.seek(0)
     file = File(image, filename="captcha.png")
@@ -14,12 +15,13 @@ async def get_captcha(ctx):
     await ctx.send(file=file)
 
 
-async def receive_captcha(ctx, arg):
+async def receive_captcha(ctx: Context, arg: str):
 
-    id=Queue[str]()
-    threadID= Thread(target=selecting_data, args=(arg.format(), ctx.author.id,id,))
+    id = Queue[str]()
+    threadID = Thread(target=selecting_data, args=(
+        arg.format(), ctx.author.id, id,))
     threadID.start()
-    
+
     if id.get() is None:
         await ctx.send("jajaja que botsito , no puede contra un captcha")
         return

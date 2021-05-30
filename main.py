@@ -1,24 +1,26 @@
-
-
-from discord.ext import commands
-from discord.ext.commands import CommandNotFound
+from  discord.ext.commands import Bot,CommandNotFound
+from discord.ext.commands.context import Context
 from app.managecommands import get_captcha, receive_captcha
 from json import load
 
-bot = commands.Bot(command_prefix="$",)
+bot:Bot = Bot(command_prefix="$",)
 with open("settings.json", "r") as config:
     token = load(config)["token"]
 
 @bot.command(name="getCaptcha")
 async def output(ctx):
+    print( type(ctx))
     if len(ctx.author.roles):
         await ctx.send("mal parido , ya tienes un role")
         return
+    
     await get_captcha(ctx)
 
 
 @bot.command(name="verify")
-async def output(ctx, arg=None):
+async def output(ctx:Context, arg=None):
+    print(type(ctx))
+    
     if len(ctx.author.roles):
         await ctx.send("mal parido , ya tienes un role")
         return
@@ -30,7 +32,7 @@ async def output(ctx, arg=None):
 
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(_:Context, error):
     if isinstance(error, CommandNotFound):
         return
     raise error

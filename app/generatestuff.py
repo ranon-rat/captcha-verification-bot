@@ -1,8 +1,8 @@
 
 from typing import Tuple
 from PIL import Image, ImageDraw, ImageFont
-from random import randint, choice
-from math import sin, cos, pi
+from random import randint, choice, random
+from math import sin, cos
 from io import BytesIO
 
 
@@ -15,7 +15,6 @@ class Generate:
         self.buff = BytesIO()  # the buffer image
 
     # generate the str
-
     def random_string(self) -> str:
         def random_char(): return choice(
             [chr(randint(65, 90)), chr(randint(97, 122)), chr(randint(48, 57))])
@@ -25,15 +24,16 @@ class Generate:
     def degenerate(self) -> None:
         xsize, ysize = self.img.size
 
-        for x in range(1, xsize):
-            for y in range(1, ysize):
+        for y in range(1, ysize):
+            for x in range(1, xsize):
 
                 self.img.putpixel(
                     (
-                        int(x) % xsize,
-                        int((sin(x)*10)*cos(y)*8) % ysize
+                        int(random()*x*y) % xsize,
+                        int((sin(x)*random()*cos(y))) % ysize
                     ),
                     self.img.getpixel((x, y)))
+
     # it returns the value that the user need for been verified
 
     def generate_image(self) -> Tuple[str, BytesIO]:
@@ -43,6 +43,3 @@ class Generate:
         self.degenerate()
         self.img.save(self.buff, format="PNG")
         return (text, self.buff)
-
-
-Generate().generate_image()
