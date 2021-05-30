@@ -9,7 +9,7 @@ with open("settings.json", "r") as config:
 
 @bot.command(name="getCaptcha")
 async def output(ctx):
-    print( type(ctx))
+
     if len(ctx.author.roles):
         await ctx.send("mal parido , ya tienes un role")
         return
@@ -19,7 +19,7 @@ async def output(ctx):
 
 @bot.command(name="verify")
 async def output(ctx:Context, arg=None):
-    print(type(ctx))
+
     
     if len(ctx.author.roles):
         await ctx.send("mal parido , ya tienes un role")
