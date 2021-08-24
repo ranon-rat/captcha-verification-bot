@@ -10,9 +10,9 @@ with open("settings.json", "r") as config:
 @bot.command(name="getCaptcha")
 async def output(ctx):
 
-    #if len(ctx.author.roles):
-    #    await ctx.send("mal parido , ya tienes un role")
-    #    return
+    if len(ctx.author.roles)>0:
+        await ctx.send("mal parido , ya tienes un role")
+        return
     
     await get_captcha(ctx)
 
@@ -21,9 +21,9 @@ async def output(ctx):
 async def output(ctx:Context, arg=None):
 
     
-    #if len(ctx.author.roles)>0:
-    #    await ctx.send("mal parido , ya tienes un role")
-    #    return
+    if len(ctx.author.roles)>0:
+        await ctx.send("mal parido , ya tienes un role")
+        return
     
     if not arg:
         await ctx.send("mal parido te falto un argumento")
