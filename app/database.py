@@ -3,13 +3,7 @@ from sqlite3.dbapi2 import Connection
 from queue import Queue
 from sys import exit
 
-"""
-CREATE TABLE captcha_discord(
-    id INTEGER PRIMARY KEY,
-    verification_captcha VARCHAR(10),
-    id_user VARCHAR(18)
-)
-"""
+
 
 
 def get_connection() -> Connection:
@@ -30,7 +24,7 @@ def insert_data(text: str, id: int) -> None:
     
 
 
-def selecting_data(text: str, id: int,queue:Queue[str]):
+def selecting_data(text: str, id: int,queue:Queue):
     sql = "SELECT id_user FROM captcha_discord WHERE verification_captcha =?1 AND id_user=?2"
     conn = get_connection()
     queue.put( conn.cursor().execute(sql, (text, str(id),)).fetchone())

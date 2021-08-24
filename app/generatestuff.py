@@ -9,7 +9,7 @@ from io import BytesIO
 class Generate:
     def __init__(self) -> None:
         self.fnt: ImageFont = ImageFont.truetype(
-            'Arial Unicode.ttf', 30)  # the font
+            './arial-unicode-ms.ttf', 30)  # the font
         self.img = Image.new("RGB", (300, 100), color=(
             randint(100, 255), randint(100, 255), randint(100, 255)))
         self.buff = BytesIO()  # the buffer image

@@ -1,4 +1,5 @@
 from discord import File
+import discord
 from discord.ext.commands.context import Context
 from discord.utils import get
 from threading import Thread
@@ -6,6 +7,12 @@ from queue import Queue
 from .generatestuff import Generate
 from .database import delete_data, insert_data, selecting_data
 
+perms=discord.Permissions()
+perms.read_messages=True
+perms.send_messages=True
+perms.connect=True
+perms.external_emojis=True
+perms.read_message_history=True
 
 async def get_captcha(ctx: Context):
     captcha_output, image = Generate().generate_image()
@@ -17,7 +24,7 @@ async def get_captcha(ctx: Context):
 
 async def receive_captcha(ctx: Context, arg: str):
 
-    id = Queue[str]()
+    id = Queue()
     threadID = Thread(target=selecting_data, args=(
         arg.format(), ctx.author.id, id,))
     threadID.start()
@@ -27,8 +34,9 @@ async def receive_captcha(ctx: Context, arg: str):
         return
     guild = ctx.guild
 
+    
     if get(ctx.author.guild.roles, name="captcha-verify") is None:
-        await guild.create_role(name="captcha-verify", read_messages=True, read_message_history=True, connect=True, speak=True, send_messages=True)
+        await guild.create_role(name="captcha-verify", permissions=perms)#read_messages=True, read_message_history=True, connect=True, speak=True, send_messages=True)
 
     delete_data(id)
     role = get(guild.roles, name="captcha-verify")
